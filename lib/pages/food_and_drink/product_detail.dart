@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:movie/models/MyModel.dart';
 import 'package:movie/models/Product.dart';
 import 'package:movie/pages/food_and_drink/food_and_drink.dart';
+import 'package:movie/pages/food_and_drink/product_detail_local_widgets/build_itemBuilder.dart';
+import 'package:movie/pages/food_and_drink/product_detail_local_widgets/build_paymentMethod.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -44,7 +46,6 @@ class _ProductDetailState extends State<ProductDetail> {
   }
 
   get _buildBody{
-    var numberFormat = NumberFormat("#,##0.00", "en_US");
     double subHeight = MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom + 45 + 200 + 10 + 50;
     return Container(
       child: SafeArea(
@@ -70,124 +71,21 @@ class _ProductDetailState extends State<ProductDetail> {
                     builder: (context, myModel, child){
                       return ListView.builder(
                         itemBuilder: (context, index){
-                          return _buildItemBuilder(context, index);
+                          return buildItemBuilder(context, index);
                         },
                         itemCount: listProductData.length,
                       );
                     }
                 ),
               ),
+              buildPaymentMethod(),
               Container(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                height: 200,
-                child: Consumer<MyModel>(
-                  builder: (context, myModel, child){
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Payment Method', style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
-                        ),),
-                        SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Amount', style: TextStyle(
-                                color: Colors.white,
-                              ),),
-                              Consumer<MyModel>(
-                                builder : (context, myModel, child){
-                                  return Text('\$${numberFormat.format(totalAmount)}', style: TextStyle(
-                                    color: Colors.white,
-                                  ),);
-                                }
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Tax fee', style: TextStyle(
-                                color: Colors.white,
-                              ),),
-                              Text('\$0.0', style: TextStyle(
-                                color: Colors.white,
-                              ),),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Delivery fee', style: TextStyle(
-                                color: Colors.white,
-                              ),),
-                              Text('\$0.0', style: TextStyle(
-                                  color: Colors.white
-                              ),),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Total purchase', style: TextStyle(
-                                color: Colors.white,
-                              ),),
-                              Text('${listProductData.length}', style: TextStyle(
-                                color: Colors.white,
-                              ),),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Divider(
-                          thickness: 1,
-                          color: Colors.white,
-                        ),
-                        SizedBox(height: 5),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Total amount', style: TextStyle(
-                                color: Colors.white,
-                              ),),
-                              Text('\$${numberFormat.format(totalAmount)}', style: TextStyle(
-                                color: Colors.white,
-                              ),),
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-                  }
-                ),
-              ),
-              Container(
-                // color: Colors.blue,
                 height: 50,
                 width: MediaQuery.of(context).size.width,
                 child: Row(
                   children: [
                     Container(
                       padding: EdgeInsets.only(bottom: 10),
-                      // color: Colors.blue,
                       child: IconButton(
                         icon: Icon(Icons.chevron_left_outlined),
                         color: Colors.red,
@@ -227,9 +125,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                         setState(() {
                                           clearQtyData();
                                         });
-
-                                        // Provider.of<MyModel>(context, listen: false).clearQtyData();
-
                                         foodAndDrinkKey.currentState.setState(() {});
                                         Navigator.of(context).pop();
                                       },
@@ -545,12 +440,6 @@ class _ProductDetailState extends State<ProductDetail> {
                         fontSize: 16,
                       ),) : null,
                       onTap: (){
-                        // setState(() {
-                        //   listProductData[index]['qty'] > 0 ?  listProductData[index]['qty'] -= 1 : null;
-                        //   if(listProductData[index]['qty'] == 0){
-                        //     listProductData.removeAt(index);
-                        //   }
-                        // });
                         Provider.of<MyModel>(context, listen: false).removeProductData(listProductData, index);
                       },
                     );

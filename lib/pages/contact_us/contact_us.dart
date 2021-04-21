@@ -1,5 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movie/pages/contact_us/contact_us_local_widgets/build_appBar.dart';
+import 'package:movie/pages/contact_us/contact_us_local_widgets/build_location.dart';
+import 'package:movie/pages/contact_us/contact_us_local_widgets/build_perosnalInfo.dart';
+import 'package:movie/pages/contact_us/contact_us_local_widgets/build_setMessage.dart';
+import 'package:movie/utils/launch_url.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactUs extends StatefulWidget {
@@ -20,26 +25,11 @@ class _ContactUsState extends State<ContactUs> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.black,
-        appBar: _buildAppBar,
+        appBar: buildAppBar(context),
         body: OrientationBuilder(
           builder: (context, orientation){
             return orientation == Orientation.portrait ? _buildBody : _buildBodyLandScape;
           }
-        ),
-      ),
-    );
-  }
-
-  get _buildAppBar{
-    return AppBar(
-      backgroundColor: Colors.black,
-      leading: InkWell(
-        onTap: (){
-          Navigator.pop(context);
-        },
-        child: Icon(
-          Icons.arrow_back,
-          color: Colors.white,
         ),
       ),
     );
@@ -52,76 +42,7 @@ class _ContactUsState extends State<ContactUs> {
         padding: EdgeInsets.only(left: 10,right: 10),
         child: Column(
           children: [
-            Container(
-              // color: Colors.green,
-              height: 380,
-              child: Container(
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text('Contact us', style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 27,
-                        ),),
-                      ],
-                    ),
-                    SizedBox(height: 25),
-                    Text('Get help and support, troubleshoot your', style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),),
-                    SizedBox(height: 3),
-                    Text('services or get in touch with us', style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),),
-                    SizedBox(height: 40),
-                    Text('Email', style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 16,
-                    ),),
-                    SizedBox(height: 4),
-                    Text('chheanbrosna101@gmail.com', style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),),
-                    SizedBox(height: 40),
-                    Text('Phone Number', style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 16,
-                    ),),
-                    SizedBox(height: 4),
-                    Text('+855 93 65 15 13', style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),),
-                    SizedBox(height: 40),
-                    Text('Address', style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 16,
-                    ),),
-                    SizedBox(height: 4),
-                    Text('PresBroSob Village, PresBroSob Commune,', style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),),
-                    SizedBox(height: 2),
-                    Text('KhsachKondal District and Kandal Province', style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),),
-                  ],
-                ),
-              ),
-            ),
+            buildPersonalInfo(),
             Container(
               margin: EdgeInsets.only(top: 5),
               decoration: BoxDecoration(
@@ -151,7 +72,7 @@ class _ContactUsState extends State<ContactUs> {
                   ),
                   InkWell(
                     onTap: (){
-                      _launchURL('mailto:chheanbrosna101@gmail.com');
+                      launchURL('mailto:chheanbrosna101@gmail.com');
                       setState(() {
                         callClicked = false;
                         mailClicked = true;
@@ -173,7 +94,7 @@ class _ContactUsState extends State<ContactUs> {
                         locationClicked = true;
                         moreClicked = false;
                       });
-                      _launchURL('https://goo.gl/maps/GCNbPccyCuWjUUwz9');
+                      launchURL('https://goo.gl/maps/GCNbPccyCuWjUUwz9');
                     },
                     child: CircleAvatar(
                       child: Icon(Icons.location_on, size: 30, color: Colors.white,),
@@ -183,7 +104,7 @@ class _ContactUsState extends State<ContactUs> {
                   ),
                   InkWell(
                     onTap: (){
-                      _launchURL('sms:093 65 15 13');
+                      launchURL('sms:093 65 15 13');
                       setState(() {
                         callClicked = false;
                         mailClicked = false;
@@ -200,69 +121,8 @@ class _ContactUsState extends State<ContactUs> {
                 ],
               ),
             ),
-            InkWell(
-              onTap: (){
-                _launchURL('https://goo.gl/maps/GCNbPccyCuWjUUwz9');
-              },
-              child: CachedNetworkImage(
-                imageUrl: 'https://c1.10times.com/map/venue/67298.png',
-                imageBuilder: (context, imageProvider) => Container(
-                  margin: EdgeInsets.only(top: 10),
-                  height: MediaQuery.of(context).size.height - subHeight,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    border: Border.all(color: Colors.white,width: 1),
-                    color: Colors.red,
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                placeholder: (context, url) => Container(
-                  margin: EdgeInsets.only(top: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    border: Border.all(color: Colors.white,width: 1),
-                    color: Colors.red,
-                  ),
-                  child: Center(child: CircularProgressIndicator()),
-                  height: MediaQuery.of(context).size.height - subHeight,
-                  // width: 150,
-                ),
-                errorWidget: (context, url, error) => Container(
-                  margin: EdgeInsets.only(top: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    border: Border.all(color: Colors.white,width: 1),
-                    color: Colors.red,
-                  ),
-                  child: Icon(Icons.error),
-                  height: MediaQuery.of(context).size.height - subHeight,
-                  // width: 150,
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              // color: Colors.green,
-              height: 45,
-              width: double.infinity,
-              child: RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                color: Colors.red,
-                onPressed: (){
-                  _launchURL('mailto:chheanbrosna3401@gmail.com');
-                },
-                child: Text('ផ្ញើសារ', style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontFamily: 'KhmerOSbattambang',
-                ),),
-              ),
-            ),
+            buildLocation(subHeight),
+            buildSetMessage(),
           ],
         ),
       ),
@@ -337,38 +197,11 @@ class _ContactUsState extends State<ContactUs> {
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),),
-                            // SizedBox(height: 2),
-                            // Text('KhsachKondal District and Kandal Province', style: TextStyle(
-                            //   color: Colors.white,
-                            //   fontSize: 16,
-                            //   fontWeight: FontWeight.bold,
-                            // ),),
                           ],
                         ),
                       ),
                       Positioned(
                         right: 20,
-                        // child: Container(
-                        //   decoration: BoxDecoration(
-                        //     borderRadius: BorderRadius.all(Radius.circular(5)),
-                        //     border: Border.all(color: Colors.white,width: 1),
-                        //     boxShadow: [
-                        //       BoxShadow(
-                        //         color: Colors.red,
-                        //         offset: Offset(2, 4),
-                        //         blurRadius: 7.0,
-                        //         spreadRadius: 0.0,
-                        //       )
-                        //     ],
-                        //     color: Colors.red,
-                        //     image: DecorationImage(
-                        //       image: CachedNetworkImageProvider('https://i.pinimg.com/originals/62/e5/61/62e5614d21b6ab1dc7b61664b1b97ebc.jpg'),
-                        //       fit: BoxFit.cover,
-                        //     ),
-                        //   ),
-                        //   height: 180,
-                        //   width: 150,
-                        // ),
                         child: CachedNetworkImage(
                           imageUrl: 'https://i.pinimg.com/originals/62/e5/61/62e5614d21b6ab1dc7b61664b1b97ebc.jpg',
                           imageBuilder: (context, imageProvider) => Container(
@@ -466,7 +299,7 @@ class _ContactUsState extends State<ContactUs> {
                       ),
                       InkWell(
                         onTap: (){
-                          _launchURL('mailto:chheanbrosna101@gmail.com');
+                          launchURL('mailto:chheanbrosna101@gmail.com');
                           setState(() {
                             callClicked = false;
                             mailClicked = true;
@@ -488,7 +321,7 @@ class _ContactUsState extends State<ContactUs> {
                             locationClicked = true;
                             moreClicked = false;
                           });
-                          _launchURL('https://goo.gl/maps/GCNbPccyCuWjUUwz9');
+                          launchURL('https://goo.gl/maps/GCNbPccyCuWjUUwz9');
                         },
                         child: CircleAvatar(
                           child: Icon(Icons.location_on, size: 30, color: Colors.white,),
@@ -498,7 +331,7 @@ class _ContactUsState extends State<ContactUs> {
                       ),
                       InkWell(
                         onTap: (){
-                          _launchURL('sms:093 65 15 13');
+                          launchURL('sms:093 65 15 13');
                           setState(() {
                             callClicked = false;
                             mailClicked = false;
@@ -517,20 +350,8 @@ class _ContactUsState extends State<ContactUs> {
                 ),
                 InkWell(
                   onTap: (){
-                    _launchURL('https://goo.gl/maps/GCNbPccyCuWjUUwz9');
+                    launchURL('https://goo.gl/maps/GCNbPccyCuWjUUwz9');
                   },
-                  // child: Container(
-                  //   margin: EdgeInsets.only(left: 20, right: 20, top: 10),
-                  //   height: 230,
-                  //   width: MediaQuery.of(context).size.width,
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.all(Radius.circular(10)),
-                  //     image: DecorationImage(
-                  //       image: CachedNetworkImageProvider('https://c1.10times.com/map/venue/67298.png'),
-                  //       fit: BoxFit.cover,
-                  //     ),
-                  //   ),
-                  // ),
                   child: CachedNetworkImage(
                     imageUrl: 'https://c1.10times.com/map/venue/67298.png',
                     imageBuilder: (context, imageProvider) => Container(
@@ -579,7 +400,7 @@ class _ContactUsState extends State<ContactUs> {
                     ),
                     color: Colors.red,
                     onPressed: (){
-                      _launchURL('mailto:chheanbrosna3401@gmail.com');
+                      launchURL('mailto:chheanbrosna3401@gmail.com');
                     },
                     child: Text('ផ្ញើសារ', style: TextStyle(
                       color: Colors.white,
@@ -595,10 +416,6 @@ class _ContactUsState extends State<ContactUs> {
         ),
       )
     );
-  }
-
-  void _launchURL(String _url) async {
-      await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
   }
 
   Future<void> createPhoneCallDialog(BuildContext context){
@@ -624,13 +441,12 @@ class _ContactUsState extends State<ContactUs> {
             ),
             FlatButton(
               onPressed: (){
-                _launchURL('tel:093 65 15 13');
+                launchURL('tel:093 65 15 13');
               },
               child: Text('Call', style: TextStyle(
                 color: Colors.red,
               ),),
             ),
-
           ],
         );
       }

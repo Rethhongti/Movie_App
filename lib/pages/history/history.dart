@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:movie/pages/history/history_local_widgets/build_appBar.dart';
 import 'package:movie/pages/loading/loading.dart';
 import 'package:movie/pages/movies/movie.dart';
-import 'package:movie/pages/multi_pages/multi_pages.dart';
 import 'package:movie/repos/Movie.dart';
-import 'package:page_transition/page_transition.dart';
 
 class History extends StatefulWidget {
   @override
@@ -30,28 +29,8 @@ class _HistoryState extends State<History> {
     return Scaffold(
       resizeToAvoidBottomPadding : false,
       backgroundColor: Colors.black,
-      appBar: _buildAppBar,
+      appBar: buildAppBar(context),
       body: _buildBody,
-    );
-  }
-
-  get _buildAppBar {
-    return AppBar(
-      elevation: 0.0,
-      backgroundColor: Colors.black,
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () {
-          movieScreenKey.currentState.setState(() {
-
-          });
-          Navigator.pop(context);
-        },
-      ),
-      title: Text(
-        'HISTORY',
-        style: TextStyle(color: Colors.white),
-      ),
     );
   }
 
@@ -219,21 +198,8 @@ class _HistoryState extends State<History> {
             });
           }
         ),
-        // IconSlideAction(
-        //   caption: 'Share',
-        //   color: Colors.indigo,
-        //   icon: Icons.share,
-        //   onTap: () => (){},
-        // ),
       ],
       secondaryActions: <Widget>[
-        // IconSlideAction(
-        //   caption: 'More',
-        //   color: Colors.black45,
-        //   icon: Icons.more_horiz,
-        //   onTap: () => (){},
-        //
-        // ),
         IconSlideAction(
           caption: 'Delete',
           color: Colors.white,

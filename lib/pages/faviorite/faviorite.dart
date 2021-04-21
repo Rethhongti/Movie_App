@@ -4,11 +4,13 @@ import 'package:movie/pages/loading/loading.dart';
 import 'package:movie/pages/movies/movie.dart';
 import 'package:movie/pages/multi_pages/multi_pages.dart';
 import 'package:movie/repos/Movie.dart';
+import 'package:movie/utils/launch_url.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../movies/movie_local_widget/buy_alertDialog.dart';
 import '../movies/movie_detail.dart';
 
 final favoriteKey = GlobalKey<_FavoriteState>();
+
 class Favorite extends StatefulWidget {
   final Key key = favoriteKey;
   @override
@@ -16,15 +18,14 @@ class Favorite extends StatefulWidget {
 }
 
 class _FavoriteState extends State<Favorite> {
-  final String imageUrl = 'https://image.tmdb.org/t/p/original/';
 
+  final String imageUrl = 'https://image.tmdb.org/t/p/original/';
   ScrollController _scrollController = ScrollController();
   bool hearthClicked = false;
   List<Result> _listResult = List<Result>();
 
   @override
   Widget build(BuildContext context) {
-
     _getFavoriteDate();
     return Scaffold(
       backgroundColor: Colors.black,
@@ -82,21 +83,6 @@ class _FavoriteState extends State<Favorite> {
                 ),
               ),
             ),
-            // Container(
-            //   padding: EdgeInsets.only(left: 30),
-            //   alignment: Alignment.centerLeft,
-            //   height: 45,
-            //   width: double.infinity,
-            //   color: Colors.red,
-            //   child: Text(
-            //     'Favorite',
-            //     style: TextStyle(
-            //       color: Colors.white,
-            //       fontSize: 19,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            // ),
             Container(
               height: (MediaQuery.of(context).size.height - multiPagesKey.currentState.subHeight() - 45),
               child: _buildListView(_listResult),
@@ -111,9 +97,7 @@ class _FavoriteState extends State<Favorite> {
     return Container(
       color: Colors.black,
       child: RefreshIndicator(
-        onRefresh: () async {
-          setState(() {});
-        },
+        onRefresh: () async {},
         child: ListView.builder(
           controller: _scrollController,
           itemCount: searchText.isEmpty ? result.length : subData.length,
@@ -131,7 +115,7 @@ class _FavoriteState extends State<Favorite> {
           children: [
             InkWell(
               onTap: () {
-                _launchUrl('${movie.title}');
+                launchURL('${movie.title}');
               },
               child: Container(
                 height: 160,
@@ -259,13 +243,6 @@ class _FavoriteState extends State<Favorite> {
     );
   }
 
-  _launchUrl(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch this url';
-    }
-  }
 
   _getFavoriteDate(){
     _listResult.clear();
