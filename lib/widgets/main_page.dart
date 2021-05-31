@@ -1,7 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:movie/pages/loading/loading.dart';
 import 'package:movie/pages/multi_pages/multi_pages.dart';
+import 'package:movie/utils/lock_rotation.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -11,6 +10,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
+    lockRotation();
     return Scaffold(
       appBar: _buildAppBar,
       extendBodyBehindAppBar: true,
@@ -41,117 +41,57 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
       child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Container(
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.all(Radius.circular(10)),
-            //     image: DecorationImage(
-            //       image: CachedNetworkImageProvider('https://i.pinimg.com/originals/4f/3a/c4/4f3ac4124a23dd6af0181bced3fdacd3.jpg'),
-            //       fit: BoxFit.cover,
-            //     ),
-            //     boxShadow: [
-            //       BoxShadow(
-            //         color: Colors.red,
-            //         offset: Offset(8, 8),
-            //         blurRadius: 15.0,
-            //         spreadRadius: 1,
-            //       ),
-            //     ],
-            //   ),
-            //   height: 300,
-            //   width: 200,
-            // ),
-            Image.asset('assets/logo (1).png'),
-            // CachedNetworkImage(
-            //   imageUrl: 'https://i.pinimg.com/originals/4f/3a/c4/4f3ac4124a23dd6af0181bced3fdacd3.jpg',
-            //   imageBuilder: (context, imageProvider) => Container(
-            //     margin: EdgeInsets.only(right: 12),
-            //     height: 300,
-            //     width: 200,
-            //     decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.all(Radius.circular(10)),
-            //       image: DecorationImage(
-            //         image: imageProvider,
-            //         fit: BoxFit.cover,
-            //       ),
-            //       boxShadow: [
-            //         BoxShadow(
-            //           color: Colors.red,
-            //           offset: Offset(8, 8),
-            //           blurRadius: 15.0,
-            //           spreadRadius: 1,
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            //   placeholder: (context, url) => Container(
-            //     decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.all(Radius.circular(10)),
-            //       boxShadow: [
-            //         BoxShadow(
-            //           color: Colors.red,
-            //           offset: Offset(8, 8),
-            //           blurRadius: 15.0,
-            //           spreadRadius: 1,
-            //         ),
-            //       ],
-            //     ),
-            //     child: Center(child: CircularProgressIndicator()),
-            //     height: 300,
-            //     width: 200,
-            //   ),
-            //   errorWidget: (context, url, error) => Container(
-            //     decoration: BoxDecoration(
-            //       boxShadow: [
-            //         BoxShadow(
-            //           color: Colors.red,
-            //           offset: Offset(8, 8),
-            //           blurRadius: 15.0,
-            //           spreadRadius: 1,
-            //         ),
-            //       ],
-            //       borderRadius: BorderRadius.all(Radius.circular(10)),
-            //     ),
-            //     child: Icon(Icons.error),
-            //     height: 300,
-            //     width: 200,
-            //   ),
-            // ),
-            SizedBox(height: 30),
-            Container(
-              // height: 50,
-              child: Text(
-                'SERVICES          QUALITY       RESPONSIVE',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+                child: Column(
+                  children: [
+                    Container(
+                      height: 230,
+                      width: 220,
+                      child: Image.asset('assets/logo (1).png'),
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      child: Text(
+                        'SERVICES          QUALITY       RESPONSIVE',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            Container(
-              padding: EdgeInsets.only(right: 11),
-              child: RaisedButton(
-                color: Colors.red,
-                child: Text(
-                  'ចាប់ផ្តើម',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontFamily: 'KhmerOSbattambang',
+              Container(
+                height: 45,
+                width: 200,
+                child: RaisedButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
+                  color: Colors.red,
+                  child: Text(
+                    'START NOW',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => MultiPages()),
+                    );
+                  },
                 ),
-                onPressed: () {
-                  // Navigator.of(context).pushReplacementNamed('/loading');
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => MultiPages()));
-                },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

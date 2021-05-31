@@ -26,13 +26,16 @@ Widget cinemaInfo(context, cinemaList) {
             border: Border.all(width: 4, color: Colors.white),
             borderRadius: BorderRadius.circular(5),
           ),
-          child: CachedNetworkImage(
-            imageUrl: '${cinemaList['image']}',
-            placeholder: (context, url) => Center(
-              child: CircularProgressIndicator(),
+          child: Hero(
+            tag: '${cinemaList['image']}',
+            child: CachedNetworkImage(
+              imageUrl: '${cinemaList['image']}',
+              placeholder: (context, url) => Center(
+                child: CircularProgressIndicator(),
+              ),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+              fit: BoxFit.fill,
             ),
-            errorWidget: (context, url, error) => Icon(Icons.error),
-            fit: BoxFit.fill,
           ),
         ),
         SizedBox(width: 15),

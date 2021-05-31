@@ -7,7 +7,7 @@ import 'package:movie/utils/launch_url.dart';
 import 'package:provider/provider.dart';
 
 final String _imageUrl = 'https://image.tmdb.org/t/p/original/';
-Widget buildItemBuilder(BuildContext context, movie){
+Widget buildItemBuilder(BuildContext context, movie) {
   return Column(
     children: [
       Row(
@@ -18,26 +18,32 @@ Widget buildItemBuilder(BuildContext context, movie){
             width: 120,
             child: Stack(
               children: [
-                Container(
-                  margin: EdgeInsets.only(left: 10, top: 5),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: CachedNetworkImageProvider('$_imageUrl${movie.posterPath}',),
-                      fit: BoxFit.fill,
+                Hero(
+                  tag: '${movie.posterPath}',
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10, top: 5),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: CachedNetworkImageProvider(
+                          '$_imageUrl${movie.posterPath}',
+                        ),
+                        fit: BoxFit.fill,
+                      ),
+                      border: Border.all(width: 3, color: Colors.white),
                     ),
-                    border: Border.all(width: 3, color: Colors.white),
                   ),
                 ),
                 Positioned(
                   bottom: 60,
                   left: 50,
                   child: InkWell(
-                    onTap: (){
+                    onTap: () {
                       launchURL('${movie.title}');
                     },
                     child: Icon(
                       Icons.play_circle_outline,
-                      color: Colors.grey, size: 35,
+                      color: Colors.grey,
+                      size: 35,
                     ),
                   ),
                 ),
@@ -88,7 +94,9 @@ Widget buildItemBuilder(BuildContext context, movie){
                       InkWell(
                         onTap: () {
                           favClicked = false;
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MovieDetail(result: movie)));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  MovieDetail(result: movie)));
                         },
                         child: Container(
                           height: 35,
@@ -103,20 +111,20 @@ Widget buildItemBuilder(BuildContext context, movie){
                       SizedBox(width: 3),
                       InkWell(
                         onTap: () {
-                          Provider.of<MyModel>(context, listen: false).changeAdult(movie);
+                          Provider.of<MyModel>(context, listen: false)
+                              .changeAdult(movie);
                         },
                         child: Container(
                           height: 35,
                           width: 35,
                           color: Colors.white,
                           child: Consumer<MyModel>(
-                              builder: (context, myModel, child){
-                                return Icon(
-                                  Icons.favorite,
-                                  color: movie.adult ? Colors.red : Colors.black,
-                                );
-                              }
-                          ),
+                              builder: (context, myModel, child) {
+                            return Icon(
+                              Icons.favorite,
+                              color: movie.adult ? Colors.red : Colors.black,
+                            );
+                          }),
                         ),
                       ),
                     ],
@@ -131,7 +139,9 @@ Widget buildItemBuilder(BuildContext context, movie){
               backgroundColor: Colors.red,
               radius: 30,
               child: IconButton(
-                icon: Icon(movie.video == true ? Icons.check : Icons.add_shopping_cart_outlined),
+                icon: Icon(movie.video == true
+                    ? Icons.check
+                    : Icons.add_shopping_cart_outlined),
                 color: Colors.white,
                 iconSize: movie.video == true ? 32 : 24,
                 onPressed: () {

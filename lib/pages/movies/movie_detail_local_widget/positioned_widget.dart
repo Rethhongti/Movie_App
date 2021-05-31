@@ -5,7 +5,6 @@ import 'package:movie/repos/Movie.dart';
 import 'package:provider/provider.dart';
 
 class Definition extends StatelessWidget {
-
   final Orientation orientation;
   final Result result;
   Definition({this.orientation, this.result});
@@ -17,18 +16,26 @@ class Definition extends StatelessWidget {
         bottom: 1,
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30), topRight: Radius.circular(30)),
             color: Colors.black.withOpacity(0.7),
           ),
-          height: orientation == Orientation.portrait ? MediaQuery.of(context).size.height * 0.5 : MediaQuery.of(context).size.height * 0.6,
+          height: orientation == Orientation.portrait
+              ? MediaQuery.of(context).size.height * 0.5
+              : MediaQuery.of(context).size.height * 0.6,
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
               Container(
                 padding: EdgeInsets.fromLTRB(15, 15, 15, 10),
-                height: orientation == Orientation.portrait ? (MediaQuery.of(context).size.height) * 0.4 : (MediaQuery.of(context).size.height) * 0.45,
-                width: orientation == Orientation.portrait ? MediaQuery.of(context).size.width :
-                MediaQuery.of(context).size.width - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom,
+                height: orientation == Orientation.portrait
+                    ? (MediaQuery.of(context).size.height) * 0.4
+                    : (MediaQuery.of(context).size.height) * 0.45,
+                width: orientation == Orientation.portrait
+                    ? MediaQuery.of(context).size.width
+                    : MediaQuery.of(context).size.width -
+                        MediaQuery.of(context).padding.top -
+                        MediaQuery.of(context).padding.bottom,
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +54,8 @@ class Definition extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text('${result.releaseDate}'.substring(0, 10),
+                          Text(
+                            '${result.releaseDate}'.substring(0, 10),
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -56,7 +64,9 @@ class Definition extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: orientation == Orientation.portrait ? 30 : 10),
+                      SizedBox(
+                          height:
+                              orientation == Orientation.portrait ? 30 : 10),
                       Text(
                         '${result.overview}',
                         style: TextStyle(
@@ -70,9 +80,14 @@ class Definition extends StatelessWidget {
               ),
               Container(
                 alignment: Alignment.bottomCenter,
-                height: orientation == Orientation.portrait ? (MediaQuery.of(context).size.height) * 0.1 : (MediaQuery.of(context).size.height) * 0.15,
-                width: orientation == Orientation.portrait ? MediaQuery.of(context).size.width :
-                MediaQuery.of(context).size.width - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom,
+                height: orientation == Orientation.portrait
+                    ? (MediaQuery.of(context).size.height) * 0.1
+                    : (MediaQuery.of(context).size.height) * 0.15,
+                width: orientation == Orientation.portrait
+                    ? MediaQuery.of(context).size.width
+                    : MediaQuery.of(context).size.width -
+                        MediaQuery.of(context).padding.top -
+                        MediaQuery.of(context).padding.bottom,
                 child: Row(
                   children: [
                     Container(
@@ -82,7 +97,8 @@ class Definition extends StatelessWidget {
                         },
                         child: Text(
                           'បន្ត',
-                          style: TextStyle(color: Colors.white,
+                          style: TextStyle(
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                             fontFamily: 'KhmerOSbattambang',
@@ -93,42 +109,47 @@ class Definition extends StatelessWidget {
                           borderRadius: BorderRadius.circular(25),
                         ),
                       ),
-                      width: orientation == Orientation.portrait ? (MediaQuery.of(context).size.width - 10 - 45 - 10 - 5) :
-                      (MediaQuery.of(context).size.width - 10 - 45 - 10 - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom),
+                      width: orientation == Orientation.portrait
+                          ? (MediaQuery.of(context).size.width -
+                              10 -
+                              45 -
+                              10 -
+                              5)
+                          : (MediaQuery.of(context).size.width -
+                              10 -
+                              45 -
+                              10 -
+                              MediaQuery.of(context).padding.top -
+                              MediaQuery.of(context).padding.bottom),
                       height: 45,
                       padding: EdgeInsets.only(left: 15),
-                      margin: EdgeInsets.only(bottom: 5),
+                      margin: EdgeInsets.only(bottom: 15),
                     ),
                     SizedBox(width: 10),
-                    Consumer<MyModel>(
-                        builder: (context, myModel, child){
-                          return Container(
-                            decoration: BoxDecoration(
-                              color: result.adult ? Colors.red : Colors
-                                  .white,
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(10)),
-                            ),
-                            width: 45,
-                            height: 45,
-                            child: IconButton(
-                              onPressed: () {
-                                Provider.of<MyModel>(context, listen: false).changeAdult(result);
-                              },
-                              icon: Icon(
-                                  Icons.favorite,
-                                  color: result.adult ? Colors.white : Colors.black
-                              ),
-                            ),
-                            margin:  EdgeInsets.only(bottom: 5),
-                          );
-                        }
-                    ),
+                    Consumer<MyModel>(builder: (context, myModel, child) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: result.adult ? Colors.red : Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        width: 45,
+                        height: 45,
+                        child: IconButton(
+                          onPressed: () {
+                            Provider.of<MyModel>(context, listen: false)
+                                .changeAdult(result);
+                          },
+                          icon: Icon(Icons.favorite,
+                              color:
+                                  result.adult ? Colors.white : Colors.black),
+                        ),
+                        margin: EdgeInsets.only(bottom: 15),
+                      );
+                    }),
                     SizedBox(width: 10),
                   ],
                 ),
               ),
-              // SizedBox(height: 20),
             ],
           ),
         ),

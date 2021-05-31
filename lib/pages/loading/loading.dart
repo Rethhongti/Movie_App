@@ -1,13 +1,14 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:movie/models/GetData.dart';
+import 'package:movie/pages/loading/local_widgets/build_loading_processing.dart';
+import 'package:movie/utils/lock_rotation.dart';
 import 'package:movie/widgets/main_page.dart';
-import 'package:movie/pages/multi_pages/multi_pages.dart';
 import 'package:movie/repos/Movie.dart';
 
 final loadingKey = GlobalKey<_LoadingState>();
+
 class Loading extends StatefulWidget {
   Key key = loadingKey;
   @override
@@ -15,7 +16,6 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-
   List<String> _movieUrlList = [
     'https://www.youtube.com/watch?v=1VIZ89FEjYI',
     'https://www.youtube.com/watch?v=wAJcykyq7DU',
@@ -64,78 +64,65 @@ class _LoadingState extends State<Loading> {
 
   @override
   Widget build(BuildContext context) {
+    lockRotation();
     return Scaffold(
-        body: Container(
-              child: FutureBuilder<Movie>(
-                future: getData(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SpinKitThreeBounce(
-                            color: Colors.red,
-                            size: 50.0,
-                          ),
-                          SizedBox(height: 10),
-                          Text('ការបើកដំណើរការកម្មវិធីត្រូវបានបរាជ័យ', style: TextStyle(
-                            fontFamily: 'KhmerOSbattambang',
-                            fontSize: 14,
-                          ),),
-                          Text('សូមព្យាយាមម្ដងទៀត', style: TextStyle(
-                            fontFamily: 'KhmerOSbattambang',
-                              fontSize: 14,
-                          ),),
-                          SizedBox(height: 20),
-                          InkWell(
-                            child: Icon(
-                                Icons.refresh,
-                                color: Colors.red, size: 40
-                            ),
-                            onTap: (){
-                              setState(() {
-
-                              });
-                            },
-                          ),
-                          SizedBox(height: 20),
-                          InkWell(
-                            child: Icon(Icons.close, color: Colors.red, size: 40),
-                            onTap: (){
-                              exit(0);
-                            },
-                          ),
-                        ],
+      body: Container(
+        child: FutureBuilder<Movie>(
+          future: getData(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SpinKitThreeBounce(
+                      color: Colors.red,
+                      size: 50.0,
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'ការបើកដំណើរការកម្មវិធីត្រូវបានបរាជ័យ',
+                      style: TextStyle(
+                        fontFamily: 'KhmerOSbattambang',
+                        fontSize: 14,
                       ),
-                    );
-                  } else {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      listResult = snapshot.data.results;
-                      _getData(listResult);
-                      return MainPage();
-                    } else {
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SpinKitFadingCircle(
-                              color: Colors.red,
-                              size: 60.0,
-                            ),
-                            SizedBox(height: 10),
-                            Text('កំពុងដំណើរការ...', style: TextStyle(
-                              fontFamily: 'KhmerOSbattambang',
-                            ),),
-                          ],
-                        ),
-                      );
-                    }
-                  }
-                },
-              ),
-            ),
-      //),
+                    ),
+                    Text(
+                      'សូមព្យាយាមម្ដងទៀត',
+                      style: TextStyle(
+                        fontFamily: 'KhmerOSbattambang',
+                        fontSize: 14,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    InkWell(
+                      child: Icon(Icons.refresh, color: Colors.red, size: 40),
+                      onTap: () {
+                        setState(() {});
+                      },
+                    ),
+                    SizedBox(height: 20),
+                    InkWell(
+                      child: Icon(Icons.close, color: Colors.red, size: 40),
+                      onTap: () {
+                        exit(0);
+                      },
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              if (snapshot.connectionState == ConnectionState.done) {
+                listResult = snapshot.data.results;
+                _getData(listResult);
+                return MainPage();
+              } else {
+                return buildLoadingProcessing();
+              }
+            }
+          },
+        ),
+      ),
     );
   }
 
@@ -197,5 +184,4 @@ class _LoadingState extends State<Loading> {
         result[i].originalLanguage = 'Thailand';
     }
   }
-
 }

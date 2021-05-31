@@ -4,17 +4,16 @@ import 'package:intl/intl.dart';
 final buildDateTimePickerKey = GlobalKey<_BuildDateTimePickerState>();
 
 class BuildDateTimePicker extends StatefulWidget {
-  
   final double subValue;
   BuildDateTimePicker({this.subValue});
   final Key key = buildDateTimePickerKey;
-  
+  final dateFocusNode = FocusNode();
+
   @override
   _BuildDateTimePickerState createState() => _BuildDateTimePickerState();
 }
 
 class _BuildDateTimePickerState extends State<BuildDateTimePicker> {
-
   var datePicked;
   int currentYear = int.parse(DateFormat('yyyy').format(DateTime.now()));
   var timePicked;
@@ -30,7 +29,7 @@ class _BuildDateTimePickerState extends State<BuildDateTimePicker> {
         color: Colors.black,
         borderRadius: BorderRadius.circular(20),
       ),
-      height: (MediaQuery.of(context).size.height - widget.subValue) * 0.27 ,
+      height: (MediaQuery.of(context).size.height - widget.subValue) * 0.27,
       width: MediaQuery.of(context).size.width,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -39,23 +38,24 @@ class _BuildDateTimePickerState extends State<BuildDateTimePicker> {
             padding: EdgeInsets.only(left: 10, right: 14),
             child: Row(
               children: [
-                InkWell (
-                  child: Icon(Icons.date_range_sharp, color: Colors.red, size: 32),
-                  onTap: (){
+                InkWell(
+                  child:
+                      Icon(Icons.date_range_sharp, color: Colors.red, size: 32),
+                  onTap: () {
                     showDatePicker(
                         context: context,
-                        initialDate: datePicked == null ? DateTime.now() : datePicked,
+                        initialDate:
+                            datePicked == null ? DateTime.now() : datePicked,
                         firstDate: DateTime(currentYear - 5),
                         lastDate: DateTime(currentYear + 5),
-                        builder: (BuildContext context, Widget child){
+                        builder: (BuildContext context, Widget child) {
                           return Theme(
                             data: ThemeData(
                               primarySwatch: Colors.red,
                             ),
                             child: child,
                           );
-                        }
-                    ).then((date) {
+                        }).then((date) {
                       setState(() {
                         datePicked = date;
                       });
@@ -71,9 +71,16 @@ class _BuildDateTimePickerState extends State<BuildDateTimePicker> {
                   ),
                   height: 40,
                   width: MediaQuery.of(context).size.width - 95,
-                  child: Text(datePicked == null ? 'Date Picker' : DateFormat('dd-MMMM-yyyy').format(datePicked), style: TextStyle(
-                    color: datePicked == null ? Colors.black.withOpacity(0.6) : Colors.black,
-                  ),),
+                  child: Text(
+                    datePicked == null
+                        ? 'Date Picker'
+                        : DateFormat('dd-MMMM-yyyy').format(datePicked),
+                    style: TextStyle(
+                      color: datePicked == null
+                          ? Colors.black.withOpacity(0.6)
+                          : Colors.black,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -85,19 +92,20 @@ class _BuildDateTimePickerState extends State<BuildDateTimePicker> {
               children: [
                 InkWell(
                   child: Icon(Icons.timer, color: Colors.red, size: 32),
-                  onTap: (){
+                  onTap: () {
                     showTimePicker(
                         context: context,
-                        initialTime: timePicked == null ? TimeOfDay(hour: hour, minute: minute) : timePicked,
-                        builder: (BuildContext context, Widget child){
+                        initialTime: timePicked == null
+                            ? TimeOfDay(hour: hour, minute: minute)
+                            : timePicked,
+                        builder: (BuildContext context, Widget child) {
                           return Theme(
                             data: ThemeData(
                               primarySwatch: Colors.red,
                             ),
                             child: child,
                           );
-                        }
-                    ).then((time){
+                        }).then((time) {
                       setState(() {
                         timePicked = time;
                         timeText = time.format(context);
@@ -114,9 +122,14 @@ class _BuildDateTimePickerState extends State<BuildDateTimePicker> {
                   ),
                   height: 40,
                   width: MediaQuery.of(context).size.width - 95,
-                  child: Text(timePicked == null ? 'Time Picker' : '$timeText', style: TextStyle(
-                    color: timePicked == null ? Colors.black.withOpacity(0.6) : Colors.black,
-                  ),),
+                  child: Text(
+                    timePicked == null ? 'Time Picker' : '$timeText',
+                    style: TextStyle(
+                      color: timePicked == null
+                          ? Colors.black.withOpacity(0.6)
+                          : Colors.black,
+                    ),
+                  ),
                 ),
               ],
             ),
