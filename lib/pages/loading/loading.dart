@@ -65,9 +65,6 @@ class _LoadingState extends State<Loading> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //debugShowCheckedModeBanner: false,
-       //Scaffold(
-        //backgroundColor: Colors.black,
         body: Container(
               child: FutureBuilder<Movie>(
                 future: getData(),

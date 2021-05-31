@@ -245,7 +245,6 @@ class _HomeState extends State<Home> {
                                   _social = false;
                                   _currentIndex = 2;
                                   _fad = false;
-                                  // _controller.jumpToPage(2);
                                 });
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => Favorite()));
                               },
